@@ -1,0 +1,9 @@
+1) setImmediate(), in comparison to setTimeout(), will always execute first, if inside an I/O cycle.
+If on main module, then, it would be non-deterministic and would be based on performance of the processes,
+therefore you may want to use setImmediate() when you want higher priority than setTimeout() in the event loop.
+
+2) process.nextTick() is processed in the nextTick queue, therefore its processes has the highest priority 
+among all the asynchronous modules, while setImmediate() has its callback scheduled to run inside the Check phase
+,therefore it has less priority than process.nextTick().
+
+3) Some of the native modules of Node.js are: v8, buffer, console, http, dns, events, stream, url, util, vm.
