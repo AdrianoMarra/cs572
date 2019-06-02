@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var validateJson = require('./../myMiddleware');
 
 var grades = [{ name:"Assad Saad", course:"CS572", grade:95, id: 1 },
 { name:"Paul Corazza", course:"CS571", grade:95, id: 2 },
@@ -16,7 +17,7 @@ router.get('/:id', function(req, res, next) {
   res.json(resp);
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', validateJson, function(req, res, next) {
   let newId = grades.length + 1;
   req.body.id = newId;
   grades.push(req.body);

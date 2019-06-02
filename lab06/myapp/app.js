@@ -1,8 +1,10 @@
 // 1) Dependencies.
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
+var fs = require('fs');
 var logger = require('morgan');
+var path = require('path');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var gradesRouter = require('./routes/grades');
@@ -12,9 +14,12 @@ var app = express();
 
 // 3) Setup / Configuration 
 app.set('views', path.join(__dirname, 'views'));
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
 
 // 4) Middlewares 
-app.use(logger('dev'));
+app.use(cors())
+app.use(logger('combined', { stream: accessLogStream }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,10 +38,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
 });
 
 // 7) Boot Application

@@ -1,11 +1,11 @@
-GET http://localhost:3000/grades/1 HTTP/1.1
+# GET http://localhost:3000/grades/1 HTTP/1.1
 
-GET http://localhost:3000/grades/ HTTP/1.1
+# GET http://localhost:3000/grades/ HTTP/1.1
 
 POST http://localhost:3000/grades/ HTTP/1.1
 content-type: application/json
 
-{
+{   
     "name": "Adriano Marra",
     "course": "CS577", 
     "grade": 100
