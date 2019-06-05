@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var grades = [{ name:"Assad Saad", course:"CS572", grade:95, id: 1 },
-{ name:"Paul Corazza", course:"CS571", grade:95, id: 2 },
-{ name:"Joseph Lerman", course:"CS573", grade:95, id: 3 }];
-
 /* GET list of all lectures. */
 router.get('/', function(req, res, next) {
   db.collection('lectures').find().toArray().then((e) => {

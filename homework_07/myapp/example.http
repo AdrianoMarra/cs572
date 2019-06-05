@@ -2,18 +2,18 @@
 
 # GET http://localhost:3000/lectures/ HTTP/1.1
 
-POST http://localhost:3000/lectures/ HTTP/1.1
-content-type: application/json
+# POST http://localhost:3000/lectures/ HTTP/1.1
+# content-type: application/json
 
-[{   
-    "course": "CS577", 
-    "lecture": "AngularJS"
-},
-{   
-    "course": "CS577", 
-    "lecture": "Angular"
-}]
+# [{   
+#     "course": "CS577", 
+#     "lecture": "AngularJS"
+# },
+# {   
+#     "course": "CS577", 
+#     "lecture": "Angular"
+# }]
 
-DELETE http://localhost:3000/lectures/AngularJS HTTP/1.1
+# DELETE http://localhost:3000/lectures/AngularJS HTTP/1.1
 
-GET http://localhost:3000/search/Ang HTTP/1.1
+GET http://localhost:3000/lectures/search/ang HTTP/1.1
