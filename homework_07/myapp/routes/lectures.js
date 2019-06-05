@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var validateJson = require('../myMiddleware');
 
 var grades = [{ name:"Assad Saad", course:"CS572", grade:95, id: 1 },
 { name:"Paul Corazza", course:"CS571", grade:95, id: 2 },
