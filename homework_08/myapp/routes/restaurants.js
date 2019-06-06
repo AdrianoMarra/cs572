@@ -52,6 +52,7 @@ router.get('/', async function (req, res, next) {
   ]})
   .limit(10)
   .toArray();
+  
   res.json(results);
 });
 
