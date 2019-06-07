@@ -1,0 +1,83 @@
+
+POST http://localhost:3000/locations/ HTTP/1.1
+content-type: application/json
+
+[
+   {
+      "name":"Argiro",
+      "category":"Restaurant",
+      "location":{
+         "type":"Point",
+         "coordinates":[
+            -91.967279,
+            41.017782
+         ]
+      }
+   },
+   {
+      "name":"Recreation center",
+      "category":"Recreation",
+      "location":{
+         "type":"Point",
+         "coordinates":[
+            -91.9649649,
+            41.0169169
+         ]
+      }
+   },
+   {
+      "name":"McLaughlin",
+      "category":"Academic Bdg",
+      "location":{
+         "type":"Point",
+         "coordinates":[
+            -91.9682469,
+            41.017029
+         ]
+      }
+   },
+   {
+      "name":"Library",
+      "category":"Academic Bdg",
+      "location":{
+         "type":"Point",
+         "coordinates":[
+            -91.9687689,
+            41.017654
+         ]
+      }
+   },
+   {
+      "name":"Verrill Hall",
+      "category":"Academic Bdg",
+      "location":{
+         "type":"Point",
+         "coordinates":[
+            -91.9701546,
+            41.016454
+         ]
+      }
+   },
+   {
+      "name":"My Dorm",
+      "category":"Dorm",
+      "location":{
+         "type":"Point",
+         "coordinates":[
+            -91.9679483,
+            41.022391
+         ]
+      }
+   },
+   {
+      "name":"Swimming pool",
+      "category":"Recreation",
+      "location":{
+         "type":"Point",
+         "coordinates":[
+            -91.9696223,
+            41.0236518
+         ]
+      }
+   }
+]

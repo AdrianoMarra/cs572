@@ -122,14 +122,123 @@ router.get('/', async function (req, res, next) {
  * restaurant's name begins with letter 'Wil'.
  */
   let results = await db.collection('restaurants')
-  .find({$or: [
-    {"cuisine": {$nin: ["American ", "Chinese"]}},
-    {"name": {$regex: /^wil/, $options: "i"}}
-  ]},
-    {projection: { restaurant_id:1, name:1, district:1, cuisine:1, _id:0 }})
+  .find(
+    // {$or: [
+    // // {"cuisine": {$nin: ["American ", "Chinese"]}},
+    // {"name": {$regex: /^adriano/, $options: "i"}},
+    // {"name": {$regex: /^marcu/, $options: "i"}}
+
+    // ]},
+    {$and: [
+      // {"restaurant_id": "40361618"},
+      {grades: { $elemMatch: { score: 10 } } }
+    ]}
+
+    // {projection: { restaurant_id:1, name:1, district:1, cuisine:1, _id:0 }}
+    )
+    .limit(10)
   .toArray();
 
   res.json(results);
+});
+
+router.post('/', async function (req, resp, next) {
+  
+  let results = await db.collection('restaurants')
+  .insertOne(req.body);
+
+  resp.json(results);
+});
+
+/**
+ * CRUD RICH DOCUMENT LEVEL 01
+ */
+
+router.put('/:rest_id/grades', async function (req, resp, next) {
+  let id = req.params.rest_id;
+
+  let results = await db.collection('restaurants')
+  .updateOne(
+    {restaurant_id: id}, 
+    {$push: {"grades": req.body}}
+    );
+
+  resp.json(results);
+});
+
+router.patch('/:rest_id/grades/:score', async function (req, resp, next) {
+  let id = req.params.rest_id;
+  let score = Number(req.params.score);
+
+  let results = await db.collection('restaurants')
+  .updateOne(
+    {restaurant_id: id}, 
+    {$set: {"grades.$[obj].grade": req.body.grade}},
+    {arrayFilters: [{"obj.score": score}]}
+    );
+
+  resp.json(results);
+});
+
+router.delete('/:rest_id/grades/:score', async function (req, resp, next) {
+  let id = req.params.rest_id;
+  let score = Number(req.params.score);
+
+  let results = await db.collection('restaurants')
+  .updateOne(
+    {restaurant_id: id}, 
+    {$pull: {"grades": {"score": score} }}
+    );
+
+  resp.json(results);
+});
+
+/**
+ * CRUD RICH DOCUMENT LEVEL 02
+ */
+
+router.put('/:rest_id/grades/:score/recipes', async function (req, resp, next) {
+  
+  let id = req.params.rest_id;
+  let score = Number(req.params.score);
+
+  let results = await db.collection('restaurants')
+  .updateOne(
+    {restaurant_id: id},
+    {$push: {"grades.$[obj].recipes": req.body}},
+    {arrayFilters: [{"obj.score": score}]}
+    );
+
+  resp.json(results);
+});
+
+router.patch('/grades/:score/recipes/:cheff', async function (req, resp, next) {
+  
+  let score = Number(req.params.score);
+  let cheff = req.params.cheff;
+
+  let results = await db.collection('restaurants')
+  .update(
+    {},
+    {$set: {"grades.$[grade].recipes.$[recipe].name": "I did it..."}},
+    {arrayFilters: [{"grade.score": score}, {"recipe.cheff": cheff}], multi: true}
+  );
+
+  resp.json(results);
+});
+
+router.delete('/grades/recipes/:cheff', async function (req, resp, next) {
+  let cheff = req.params.cheff
+
+  let results = await db.collection('restaurants')
+  .updateOne(
+    { "grades.recipes.cheff" : cheff.toString() }, 
+    {$pull: { "grades.$.recipes": { "cheff": cheff.toString()}} }
+    );
+
+
+    console.log(cheff.toString());
+  resp.json(results);
 });
 
 module.exports = router;
