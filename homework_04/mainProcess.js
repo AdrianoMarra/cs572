@@ -4,7 +4,6 @@ const http = require("http");
 const {fork} = require('child_process');
 const url = require('url');
 
-
 function readFiles({req, res}) {
     const childProcess = fork('childProcess.js');
     var url_parts = url.parse(req.url, true);

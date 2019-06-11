@@ -139,25 +139,25 @@
 # CRUD FOR RICH DOCUMENTS LEVEL 01
 # 
 
-# PUT http://localhost:3000/restaurants/1/grades HTTP/1.1
-# content-type: application/json
+PUT http://localhost:3000/restaurants/1/grades HTTP/1.1
+content-type: application/json
 
-# {
-#    "date": "2019-06-06T00:00:00.000Z",
-#    "grade": "A+",
-#    "score": 100,
-#    "recipes": [
-#       {"name": "Recipe number one",
-#        "cheff": "Jhon"
-#       },
-#       {"name": "Recipe number two",
-#        "cheff": "Peter"
-#        },
-#        {"name": "Recipe number three",
-#         "cheff": "Marcus"
-#        }
-#    ]
-# }
+{
+   "date": "2019-06-06T00:00:00.000Z",
+   "grade": "A+",
+   "score": 100,
+   "recipes": [
+      {"name": "Recipe number one",
+       "cheff": "Jhon"
+      },
+      {"name": "Recipe number two",
+       "cheff": "Peter"
+       },
+       {"name": "Recipe number three",
+        "cheff": "Marcus"
+       }
+   ]
+}
 
 # PATCH http://localhost:3000/restaurants/0/grades/10 HTTP/1.1
 # content-type: application/json
@@ -172,13 +172,13 @@
 # CRUD FOR RICH DOCUMENTS LEVEL 02
 # 
 
-# PUT http://localhost:3000/restaurants/1/grades/100/recipes HTTP/1.1
-# content-type: application/json
+PUT http://localhost:3000/restaurants/0/grades/100/recipes HTTP/1.1
+content-type: application/json
 
-# {
-#    "name": "Recipe number four",
-#    "cheff": "Marcus"
-# }
+{
+   "name": "Recipe number five",
+   "cheff": "Joao pedro"
+}
 
 # PATCH http://localhost:3000/restaurants/grades/100/recipes/Marcus HTTP/1.1
 # content-type: application/json

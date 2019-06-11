@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET list of all lectures. */
-router.get('/', async function (req, res, next) {
+router.get('/', async function (req, res) {
 
   //Fields: restaurant_id, name, district and cuisine
   // let results = await db.collection('restaurants')
@@ -105,41 +105,30 @@ router.get('/', async function (req, res, next) {
  * 20. Write a MongoDB query to find the restaurant Id, name, district and cuisine 
  * for those restaurants which achieved a score which is not more than 10.
  */
-  // let results = await db.collection('restaurants')
+  // let results = await req.db.collection('restaurants')
   // .find({
-  //   // "grades.score": {$lte: 10}
   //   "grades.score": {$not: {$gt: 10}}
   //   },
   //   {projection: { restaurant_id:1, name:1, district:1, cuisine:1, grades:1, _id:0 }})
   // .limit(10)
   // .toArray();
-  //   res.json(results);
-  // });
+
+  // res.json(results);
 
 /**
  * 21. Write a MongoDB query to find the restaurant Id, name, district and cuisine 
  * for those restaurants which prepared dish except 'American' and 'Chinees' or 
  * restaurant's name begins with letter 'Wil'.
  */
-  let results = await db.collection('restaurants')
+  let results = await req.db.collection('restaurants')
   .find(
-    // {$or: [
-    // // {"cuisine": {$nin: ["American ", "Chinese"]}},
-    // {"name": {$regex: /^adriano/, $options: "i"}},
-    // {"name": {$regex: /^marcu/, $options: "i"}}
-
-    // ]},
-    {$and: [
-      // {"restaurant_id": "40361618"},
-      {grades: { $elemMatch: { score: 10 } } }
-    ]}
-
-    // {projection: { restaurant_id:1, name:1, district:1, cuisine:1, _id:0 }}
-    )
-    .limit(10)
+    { "cuisine": {$nin: ["American ", "Chinese"]}
+  })
+  .limit(10)
   .toArray();
 
   res.json(results);
+
 });
 
 router.post('/', async function (req, resp, next) {
@@ -157,7 +146,7 @@ router.post('/', async function (req, resp, next) {
 router.put('/:rest_id/grades', async function (req, resp, next) {
   let id = req.params.rest_id;
 
-  let results = await db.collection('restaurants')
+  let results = await req.db.collection('restaurants')
   .updateOne(
     {restaurant_id: id}, 
     {$push: {"grades": req.body}}
@@ -170,7 +159,7 @@ router.patch('/:rest_id/grades/:score', async function (req, resp, next) {
   let id = req.params.rest_id;
   let score = Number(req.params.score);
 
-  let results = await db.collection('restaurants')
+  let results = await req.db.collection('restaurants')
   .updateOne(
     {restaurant_id: id}, 
     {$set: {"grades.$[obj].grade": req.body.grade}},
@@ -184,7 +173,7 @@ router.delete('/:rest_id/grades/:score', async function (req, resp, next) {
   let id = req.params.rest_id;
   let score = Number(req.params.score);
 
-  let results = await db.collection('restaurants')
+  let results = await req.db.collection('restaurants')
   .updateOne(
     {restaurant_id: id}, 
     {$pull: {"grades": {"score": score} }}
@@ -202,11 +191,12 @@ router.put('/:rest_id/grades/:score/recipes', async function (req, resp, next) {
   let id = req.params.rest_id;
   let score = Number(req.params.score);
 
-  let results = await db.collection('restaurants')
-  .updateOne(
-    {restaurant_id: id},
-    {$push: {"grades.$[obj].recipes": req.body}},
-    {arrayFilters: [{"obj.score": score}]}
+  let results = await req.db.collection('restaurants')
+  .update(
+    {"grades.grade": "A+"},
+    {$push: {"grades.$.recipes": req.body}},
+    {multi: true}
+    // {arrayFilters: [{"obj.score": score}]}
     );
 
   resp.json(results);
@@ -217,7 +207,7 @@ router.patch('/grades/:score/recipes/:cheff', async function (req, resp, next) {
   let score = Number(req.params.score);
   let cheff = req.params.cheff;
 
-  let results = await db.collection('restaurants')
+  let results = await req.db.collection('restaurants')
   .update(
     {},
     {$set: {"grades.$[grade].recipes.$[recipe].name": "I did it..."}},
@@ -230,12 +220,11 @@ router.patch('/grades/:score/recipes/:cheff', async function (req, resp, next) {
 router.delete('/grades/recipes/:cheff', async function (req, resp, next) {
   let cheff = req.params.cheff
 
-  let results = await db.collection('restaurants')
+  let results = await req.db.collection('restaurants')
   .updateOne(
     { "grades.recipes.cheff" : cheff.toString() }, 
     {$pull: { "grades.$.recipes": { "cheff": cheff.toString()}} }
     );
-
 
     console.log(cheff.toString());
   resp.json(results);
