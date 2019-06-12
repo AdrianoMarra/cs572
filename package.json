@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/AdrianoMarra/CS572_MWA#readme",
   "dependencies": {
+    "@angular/cli": "^8.0.2",
+    "g": "^2.0.1",
     "rxjs": "^6.5.2"
   }
 }
