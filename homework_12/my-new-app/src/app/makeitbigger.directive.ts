@@ -3,23 +3,17 @@ import { Directive, ElementRef, Renderer2, HostListener, HostBinding, Input, OnI
 @Directive({
   selector: '[makeitbigger]'
 })
-export class MakeItBiggerDirective {
+export class MakeItBiggerDirective implements OnInit {
     fontSize = 14;
-    element: ElementRef;
-    renderer: Renderer2;
 
-    constructor(private e: ElementRef, private r: Renderer2) {
-        this.setVars(e, r);
-    }
+    constructor(private element: ElementRef, private renderer: Renderer2) {}
 
-    setVars(e: ElementRef, r: Renderer2) {
-        this.element = e;
-        this.renderer = r;
+    @HostListener('dblclick') changeFontSize() {
+        this.fontSize += 2;
         this.renderer.setStyle(this.element.nativeElement, 'font-size', this.fontSize + 'px');
     }
 
-    @HostListener('dblclick') foo() {
-        this.fontSize += 2;
+    ngOnInit(): void {
         this.renderer.setStyle(this.element.nativeElement, 'font-size', this.fontSize + 'px');
     }
 }
