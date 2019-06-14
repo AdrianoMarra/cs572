@@ -16,7 +16,7 @@ import { UserDetailsGuard } from '../guards/user-details.guard';
     CommonModule ,
     RouterModule.forChild([
         { path: '', component: UsersComponent,
-        children: [ {path: ':uuid', component: UsersDetailsComponent, canActivate:[UserDetailsGuard]}
+        children: [ {path: ':uuid', component: UsersDetailsComponent, canActivate: [ UserDetailsGuard ]}
         ]
       }])
   ],

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { GetDataService } from '../services/getdata.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,18 +13,17 @@ import { Subscription } from 'rxjs';
   <div> {{ userData.nat }} </div>
   `,
 })
-export class UsersDetailsComponent implements OnInit {
+export class UsersDetailsComponent implements OnInit, OnDestroy, DoCheck {
   public users = [];
   public userData = {};
   public uuid: string;
   private subscription: Subscription;
 
-
   constructor(private getDataService: GetDataService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.uuid = params.get("uuid");
+      this.uuid = params.get('uuid');
     });
 
     const source$ = this.getDataService.getCachedData();

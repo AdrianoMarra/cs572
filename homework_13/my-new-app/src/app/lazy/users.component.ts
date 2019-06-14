@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetDataService } from '../services/getdata.service';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
   <router-outlet></router-outlet>
   `,
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   public users$ = [];
   private subscription: Subscription;
   constructor(private getDataService: GetDataService) {}

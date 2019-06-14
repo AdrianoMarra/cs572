@@ -14,7 +14,7 @@ export class GetDataService {
     }
 
     getCachedData() {
-        let storageData = JSON.parse(localStorage.onlineData).results;
+        const storageData = JSON.parse(localStorage.onlineData).results;
         return from(storageData).pipe(shareReplay());
     }
 }
